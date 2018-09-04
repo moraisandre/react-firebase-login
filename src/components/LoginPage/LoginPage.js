@@ -1,11 +1,42 @@
 import React, { Component } from 'react';
-import { Panel, Form, FormGroup, FormControl, Button } from 'react-bootstrap';
+import { Panel, Form, FormGroup, FormControl, Button, Alert } from 'react-bootstrap';
+import * as firebase from 'firebase';
 
 class LoginPage extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      pass: '',
+      loginErro: ''
+    }
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+  }
+
   handleFormSubmit(e) {
     e.preventDefault();
 
-    console.log("Button clicked");
+
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
+      .then(() => {
+        this.setState({loginErro: 'Sucess!'});
+      })
+      .catch(e => {
+        this.setState({loginErro: e.message});
+     });
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    
+    this.setState({
+      [name]: value
+    });
   }
 
   render() {
@@ -14,14 +45,21 @@ class LoginPage extends Component {
         <Panel>
           <Panel.Body>
             <Form>
+              <Alert bsStyle={this.state.loginErro == 'Sucess!' ? 'info' : 'danger'} hidden={this.state.loginErro == ''}>
+                {this.state.loginErro != 'Sucess!' ? <strong>Opss!</strong> : ''}
+                {this.state.loginErro}
+              </Alert>
               <FormGroup>
-                <FormControl type="email" label="E-mail" placeholder="User" />
+                <FormControl type="email" name="email" label="Email" placeholder="Email" value={this.state.email} onChange={this.handleInputChange} />
               </FormGroup>
               <FormGroup controlId="formPassword">
                 <FormControl
                   type="password"
+                  name="pass"
                   label="Password"
+                  value={this.state.pass}
                   placeholder="Password"
+                  onChange={this.handleInputChange}
                 />
               </FormGroup>
               <FormGroup controlId="formSubmit">

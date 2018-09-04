@@ -31,7 +31,7 @@ class App extends Component {
       <div className="App">
         <Grid>
           <Row>
-            <Col xs={12} md={4} mdOffset={4}>
+            <Col xs={12} sm={4} smOffset={4} md={4} mdOffset={4}>
               <LoginPage />
             </Col>
           </Row>
