@@ -45,8 +45,8 @@ class LoginPage extends Component {
         <Panel>
           <Panel.Body>
             <Form>
-              <Alert bsStyle={this.state.loginErro == 'Sucess!' ? 'info' : 'danger'} hidden={this.state.loginErro == ''}>
-                {this.state.loginErro != 'Sucess!' ? <strong>Opss!</strong> : ''}
+              <Alert bsStyle={this.state.loginErro === 'Sucess!' ? 'info' : 'danger'} hidden={this.state.loginErro === ''}>
+                {this.state.loginErro !== 'Sucess!' ? <strong>Opss!</strong> : ''}
                 {this.state.loginErro}
               </Alert>
               <FormGroup>
